@@ -1,0 +1,22 @@
+{% set imports = ["Column"] -%}
+{% for field in model.fields -%}
+{% if field.type not in imports %}{% set _ = imports.append(field.type) %}{% endif -%}
+{% if field.foreign_key and "ForeignKey" not in imports %}{% set _ = imports.append("ForeignKey") %}{% endif -%}
+{% endfor -%}
+from sqlalchemy import {{ imports | join(", ") }}
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class {{ model.name }}(Base):
+    """
+    SQLAlchemy model for {{ model.name }}.
+    """
+    __tablename__ = "{{ model.name | lower | replace(' ', '_') }}"
+
+    {% for field in model.fields -%}
+    {{ field.name }} = Column({{ field.type }}{% if field.foreign_key %}, ForeignKey('{{ field.foreign_key }}'){% endif %}{% if field.primary_key %}, primary_key=True{% endif %}{% if field.unique %}, unique=True{% endif %}{% if not field.nullable %}, nullable=False{% endif %})
+    {% endfor -%}
+
+    def __repr__(self):
+        return f"<{{ model.name }}({{ model.fields[0].name }}={self.{{ model.fields[0].name }}})>"

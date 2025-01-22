@@ -1,0 +1,8 @@
+from fastapi import FastAPI
+from routes import {% for endpoint in config["endpoints"] %}{{ endpoint.model.lower() }}_routes{% if not loop.last %}, {% endif %}{% endfor %}
+
+app = FastAPI(title="Generated FastAPI Application")
+
+{% for endpoint in config["endpoints"] %}
+app.include_router({{ endpoint.model.lower() }}_routes.router, prefix="/{{ endpoint.model.lower() }}s", tags=["{{ endpoint.model }}"])
+{% endfor %}

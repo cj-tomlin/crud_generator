@@ -1,0 +1,31 @@
+from fastapi import APIRouter, HTTPException
+
+router = APIRouter()
+
+{% if "GET" in methods %}
+@router.get("/")
+async def get_{{ model_name.lower() }}s():
+    # Placeholder logic
+    return {"message": "List of {{ model_name.lower() }}s"}
+{% endif %}
+
+{% if "POST" in methods %}
+@router.post("/")
+async def create_{{ model_name.lower() }}({{ model_name.lower() }}: dict):
+    # Placeholder logic
+    return {"message": "{{ model_name }} created", "data": {{ model_name.lower() }}}
+{% endif %}
+
+{% if "PUT" in methods %}
+@router.put("/{id}")
+async def update_{{ model_name.lower() }}(id: int, {{ model_name.lower() }}: dict):
+    # Placeholder logic
+    return {"message": "{{ model_name }} updated", "id": id, "data": {{ model_name.lower() }}}
+{% endif %}
+
+{% if "DELETE" in methods %}
+@router.delete("/{id}")
+async def delete_{{ model_name.lower() }}(id: int):
+    # Placeholder logic
+    return {"message": "{{ model_name }} deleted", "id": id}
+{% endif %}

@@ -12,6 +12,51 @@ poetry run uvicorn main:app --reload
 - The app will be available at http://127.0.0.1:8000
 - Interactive API docs: http://127.0.0.1:8000/docs
 
+## Database Configuration Examples
+
+The generator supports SQLite, PostgreSQL, and MySQL. Specify your database settings in the config YAML:
+
+### SQLite (default)
+```yaml
+# examples/example_config.yaml
+
+# ... other config ...
+database:
+  type: sqlite
+  url: sqlite:///./app.db
+  connect_args:
+    check_same_thread: false
+  echo: false
+```
+
+### PostgreSQL
+```yaml
+# examples/postgres_config.yaml
+database:
+  type: postgresql
+  url: postgresql://user:password@localhost:5432/mydb
+  connect_args:
+    sslmode: disable
+  echo: true
+```
+
+### MySQL
+```yaml
+# examples/mysql_config.yaml
+database:
+  type: mysql
+  url: mysql://user:password@localhost:3306/mydb
+  connect_args:
+    charset: utf8mb4
+  echo: false
+```
+
+**Fields:**
+- `type`: One of `sqlite`, `postgresql`, or `mysql` (required)
+- `url`: SQLAlchemy DB URL (required)
+- `connect_args`: Dictionary of connection options (optional)
+- `echo`: Set SQLAlchemy engine echo (optional, boolean)
+
 ## Running the Generator CLI
 
 From the project root:

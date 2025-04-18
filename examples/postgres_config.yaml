@@ -1,11 +1,9 @@
-project_name: MyGeneratedApp
-
 database:
-  type: sqlite
-  url: sqlite:///./app.db
+  type: postgresql
+  url: postgresql://user:password@localhost:5432/mydb
   connect_args:
-    check_same_thread: false
-  echo: false
+    sslmode: disable
+  echo: true
 
 models:
   - name: User
@@ -33,11 +31,9 @@ models:
         nullable: false
       - name: content
         type: String
-        nullable: true
-      - name: user_id
-        type: Integer
-        foreign_key: "user.id"
-        nullable: false
+
 endpoints:
   - model: User
-    methods: [GET, POST, PUT, DELETE]
+    methods: [create, read, update, delete]
+  - model: Post
+    methods: [create, read, update, delete]

@@ -3,8 +3,8 @@
 ## Phase 1: Core Enhancements & Stability
 
 - [ ] **Database Setup & Connection Handling**
-  - [ ] Auto-generate a `database.py` for engine/session management
-  - [ ] Allow config-driven selection of DB backend (SQLite, Postgres, etc)
+  - [x] Auto-generate a `database.py` for engine/session management
+  - [x] Allow config-driven selection of DB backend (SQLite, Postgres, etc)
   - [ ] Integrate Alembic for migrations (optional)
 - [ ] **Pydantic Schema Generation**
   - [ ] Auto-generate Pydantic models for each SQLAlchemy model

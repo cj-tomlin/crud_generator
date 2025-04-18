@@ -1,0 +1,28 @@
+# Alembic Migrations
+
+This project includes Alembic for managing database migrations.
+
+## Usage
+
+1. **Install Alembic** (if not already):
+   ```bash
+   poetry add alembic --dev
+   ```
+
+2. **Run migrations:**
+   ```bash
+   poetry run alembic upgrade head
+   ```
+
+3. **Create a new migration:**
+   ```bash
+   poetry run alembic revision --autogenerate -m "Describe changes"
+   ```
+
+## Files
+- `alembic.ini` — Alembic configuration
+- `alembic/` — Migration environment and versions
+
+## Notes
+- The Alembic environment is pre-configured to use the generated `database.py` and `Base`.
+- Make sure your models are imported in `database.py` for autogeneration to detect schema changes.

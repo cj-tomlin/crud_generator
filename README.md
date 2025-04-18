@@ -56,6 +56,17 @@ database:
 - `url`: SQLAlchemy DB URL (required)
 - `connect_args`: Dictionary of connection options (optional)
 - `echo`: Set SQLAlchemy engine echo (optional, boolean)
+- `alembic`: Set to `true` to scaffold Alembic migrations (optional, default: false)
+
+### Enabling Alembic Migrations
+To include Alembic migration support in your generated project, add the following to your config YAML (at the root level):
+
+```yaml
+alembic: true
+```
+
+If omitted or set to `false`, Alembic will not be scaffolded.
+
 
 ## Running the Generator CLI
 
@@ -64,6 +75,8 @@ From the project root:
 ```bash
 poetry run python cli.py examples/example_config.yaml
 ```
+
+Alembic support is now controlled by your config YAML (`alembic: true`). There is no CLI flag for Alembic.
 
 You can specify a different config or output directory as needed.
 

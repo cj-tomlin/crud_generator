@@ -38,6 +38,10 @@ def main():
     # Pass database config if present, else None (generator uses default)
     generate_database(project_path, database_config=config.get("database"))
 
+    if config.get("alembic", False):
+        from crud_generator.generator import scaffold_alembic
+        scaffold_alembic(project_path, config.get("database", {}))
+
     generate_model(config, project_path)
     generate_routes(config, project_path)
     generate_app(config, project_path)

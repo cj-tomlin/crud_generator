@@ -36,3 +36,10 @@ def validate_database_config(database: Dict[str, Any]):
     echo = database.get("echo")
     if echo is not None and not isinstance(echo, bool):
         raise ConfigValidationError("'echo' must be a boolean if provided.")
+
+# Validate alembic field at the top-level config
+def validate_alembic_field(config: Dict[str, Any]):
+    alembic = config.get("alembic")
+    if alembic is not None and not isinstance(alembic, bool):
+        raise ConfigValidationError("'alembic' must be a boolean if provided at the root level.")
+

@@ -12,4 +12,10 @@ def parse_config(file_path: str) -> Dict[str, Any]:
             validate_database_config(config["database"])
         except ConfigValidationError as e:
             raise ValueError(f"Invalid database config: {e}")
+    # Validate alembic field at root
+    from .config_schema import validate_alembic_field
+    try:
+        validate_alembic_field(config)
+    except ConfigValidationError as e:
+        raise ValueError(f"Invalid config: {e}")
     return config

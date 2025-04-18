@@ -1,6 +1,35 @@
 import os
 from jinja2 import Environment, FileSystemLoader
 
+def scaffold_alembic(project_path, database_config):
+    """
+    Scaffold Alembic migration environment in the generated project.
+    """
+    env = Environment(loader=FileSystemLoader("crud_generator/templates"))
+    # alembic.ini
+    alembic_ini_template = env.get_template("alembic.ini.j2")
+    rendered_ini = alembic_ini_template.render(database=database_config)
+    with open(os.path.join(project_path, "alembic.ini"), "w") as f:
+        f.write(rendered_ini)
+    # alembic/env.py
+    os.makedirs(os.path.join(project_path, "alembic"), exist_ok=True)
+    alembic_env_template = env.get_template("alembic_env.py.j2")
+    rendered_env = alembic_env_template.render()
+    with open(os.path.join(project_path, "alembic", "env.py"), "w") as f:
+        f.write(rendered_env)
+    # alembic/versions/.gitkeep
+    versions_dir = os.path.join(project_path, "alembic", "versions")
+    os.makedirs(versions_dir, exist_ok=True)
+    gitkeep_template = env.get_template("alembic_versions_gitkeep.j2")
+    with open(os.path.join(versions_dir, ".gitkeep"), "w") as f:
+        f.write(gitkeep_template.render())
+    # alembic/README.md
+    alembic_readme_template = env.get_template("alembic_readme.md.j2")
+    rendered_readme = alembic_readme_template.render()
+    with open(os.path.join(project_path, "alembic", "README.md"), "w") as f:
+        f.write(rendered_readme)
+    print(f"Scaffolded Alembic migration environment in: {project_path}")
+
 def generate_project_structure(project_name, output_dir="generated"):
     """
     Create the project structure inside the generated directory.

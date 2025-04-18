@@ -18,3 +18,35 @@ def test_parse_config_invalid_db(tmp_path):
     config_path.write_text("database:\n  type: sqlite\n")
     with pytest.raises(ValueError, match="Invalid database config"):
         parse_config(str(config_path))
+
+def test_parse_config_valid_alembic(tmp_path):
+    config_path = tmp_path / "valid_alembic.yaml"
+    config_path.write_text("""
+database:
+  type: sqlite
+  url: sqlite:///./test.db
+alembic: true
+""")
+    config = parse_config(str(config_path))
+    assert config["alembic"] is True
+
+def test_parse_config_invalid_alembic(tmp_path):
+    config_path = tmp_path / "invalid_alembic.yaml"
+    config_path.write_text("""
+database:
+  type: sqlite
+  url: sqlite:///./test.db
+alembic: "yes"
+""")
+    with pytest.raises(ValueError, match="Invalid config: 'alembic' must be a boolean"):
+        parse_config(str(config_path))
+
+def test_parse_config_alembic_omitted(tmp_path):
+    config_path = tmp_path / "no_alembic.yaml"
+    config_path.write_text("""
+database:
+  type: sqlite
+  url: sqlite:///./test.db
+""")
+    config = parse_config(str(config_path))
+    assert "alembic" not in config

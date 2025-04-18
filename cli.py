@@ -33,7 +33,11 @@ def main():
     # Create the project structure
     project_path = generate_project_structure(project_name, output_dir=args.output_dir)
 
-    # Generate the models, routes, and FastAPI app
+    # Generate database.py before models, routes, and FastAPI app
+    from crud_generator.generator import generate_database
+    # Pass database config if present, else None (generator uses default)
+    generate_database(project_path, database_config=config.get("database"))
+
     generate_model(config, project_path)
     generate_routes(config, project_path)
     generate_app(config, project_path)

@@ -43,6 +43,26 @@ def generate_routes(config, project_path):
             f.write(rendered_route)
         print(f"Generated route: {route_file_path}")
 
+def generate_database(project_path, database_config=None):
+    """
+    Generate database.py for SQLAlchemy engine and session management.
+    """
+    env = Environment(loader=FileSystemLoader("crud_generator/templates"))
+    db_template = env.get_template("database.py.j2")
+    # Use provided config, or default to SQLite if missing
+    if database_config is None:
+        database_config = {
+            "type": "sqlite",
+            "url": "sqlite:///./app.db",
+            "connect_args": {"check_same_thread": False},
+            "echo": False,
+        }
+    rendered_db = db_template.render(database=database_config)
+    db_file_path = os.path.join(project_path, "database.py")
+    with open(db_file_path, "w") as f:
+        f.write(rendered_db)
+    print(f"Generated database: {db_file_path}")
+
 def generate_app(config, project_path):
     """
     Generate the main FastAPI app entry point.

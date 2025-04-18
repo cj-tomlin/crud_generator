@@ -1,4 +1,17 @@
 project_name: MyGeneratedApp
+
+database:
+  type: sqlite
+  url: sqlite:///./app.db
+  connect_args:
+    check_same_thread: false
+  echo: false
+  # Example for PostgreSQL:
+  # type: postgresql
+  # url: postgresql://user:password@localhost/dbname
+  # connect_args: {}
+  # echo: true
+
 models:
   - name: User
     fields:
